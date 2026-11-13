@@ -1,0 +1,56 @@
+# Mapeo de ejemplo para un Excel típico de seguimiento de una gestoría.
+# Cada gestoría puede tener su propio mapeo (copiar este fichero y ajustar nombres de hojas/columnas).
+# Las mayúsculas, tildes y espacios de los nombres no importan.
+programa: excel
+operacion: seguimiento-modelos
+version: 1
+estado: activa
+
+hojas:
+  clientes:
+    hoja: Clientes
+    fila_cabecera: 1
+    columnas:
+      nif: NIF
+      nombre: Nombre
+      tipo: Tipo
+      emails: Email          # varios correos separados por coma o punto y coma
+      id_externo: Código
+    valores:
+      tipo:
+        Autónomo: autonomo
+        Sociedad: sociedad
+        Particular: particular
+
+  modelos:
+    hoja: Modelos
+    columnas:
+      nif: NIF
+      modelo: Modelo
+      ejercicio: Ejercicio
+      periodo: Periodo        # admite 1T, T1, 1, "1º trimestre"...
+      estado: Estado
+      importe: Importe
+      resultado: Resultado
+      fecha_presentacion: Fecha presentación
+    valores:
+      estado:
+        Pendiente: pendiente
+        Sin calcular: pendiente
+        Calculado: calculado
+        Presentado: presentado
+      resultado:
+        A ingresar: a_ingresar
+        A devolver: a_devolver
+        A compensar: a_compensar
+        Negativo: negativo
+        Cero: cero
+        Sin actividad: sin_actividad
+
+  pendientes:
+    hoja: Documentación pendiente
+    columnas:
+      nif: NIF
+      descripcion: Documento
+      ejercicio: Ejercicio
+      periodo: Periodo

@@ -1,0 +1,125 @@
+# Plantilla: Gestoría fiscal de autónomos
+# Punto de partida para gestorías cuyo grueso de clientes son autónomos en estimación directa.
+# Al dar de alta una gestoría se copian estos contenidos y luego se ajustan en su perfil.
+# Marcadores que se rellenan solos: {nombre_gestoria}, {email_contacto}, {telefono}
+#
+# AVISO: los textos fiscales son orientativos y deben revisarse con la gestoría antes de activar
+# el agente. El calendario oficial de la Agencia Tributaria siempre prevalece (si el último día cae
+# en festivo o fin de semana, el plazo se traslada).
+
+nombre: Gestoría fiscal de autónomos
+descripcion: >-
+  Gestoría o asesoría centrada en autónomos: IVA trimestral (303), pagos fraccionados de IRPF (130),
+  retenciones (111, 115), resúmenes anuales y declaración de la renta.
+
+contenido:
+  config:
+    tratamiento: usted
+    tono: >-
+      Profesional, cercano y claro. Frases cortas. Explica los trámites sin tecnicismos.
+      Nunca da opiniones fiscales ni recomendaciones: solo informa de datos y estados.
+    firma: "Un saludo,\n{nombre_gestoria}"
+    horario: De lunes a viernes, de 9:00 a 14:00 y de 16:00 a 19:00.
+    agente:
+      categorias_respuesta_automatica: [consulta_estado, duda_general, envio_documentacion]
+      confianza_minima: 0.75
+      limite_envios_cliente_dia: 3
+      limite_envios_gestoria_dia: 300
+      mensaje_derivacion: >-
+        Gracias por su mensaje. Una persona de {nombre_gestoria} lo revisará y le contestará
+        lo antes posible.
+
+  conocimiento:
+    - categoria: servicios
+      titulo: Servicios que prestamos a autónomos
+      orden: 1
+      contenido: |
+        - Alta y modificaciones censales en Hacienda (modelo 036) y alta en el RETA de la Seguridad Social.
+        - Contabilidad y libros registro de ingresos y gastos.
+        - Declaraciones trimestrales: IVA (modelo 303), pago fraccionado de IRPF (modelo 130),
+          retenciones de trabajadores y profesionales (modelo 111) y de alquileres (modelo 115) si aplican.
+        - Resúmenes anuales: 390 (IVA), 190 (retenciones de trabajo y profesionales), 180 (alquileres),
+          347 (operaciones con terceros) cuando corresponda.
+        - Declaración de la renta (IRPF) anual.
+
+    - categoria: calendario
+      titulo: Plazos de las declaraciones trimestrales (303, 130, 111, 115)
+      orden: 2
+      contenido: |
+        - 1.er trimestre (enero-marzo): del 1 al 20 de abril.
+        - 2.º trimestre (abril-junio): del 1 al 20 de julio.
+        - 3.er trimestre (julio-septiembre): del 1 al 20 de octubre.
+        - 4.º trimestre (octubre-diciembre): del 1 al 30 de enero.
+        Si el pago se domicilia, el plazo para presentarla termina unos días antes.
+        Si el último día es festivo o fin de semana, el plazo se traslada según el calendario de la AEAT.
+        Para cerrar cada trimestre a tiempo pedimos la documentación antes del día 5 del mes de presentación.
+        (Ejemplo: ajustar a la fecha límite interna de cada gestoría.)
+
+    - categoria: calendario
+      titulo: Declaración de la renta
+      orden: 3
+      contenido: |
+        La campaña de la renta suele ir de principios de abril al 30 de junio.
+        Pedimos la documentación (certificados de retenciones, datos de vivienda, hijos, etc.) en abril.
+
+    - categoria: normas
+      titulo: Qué documentación necesitamos cada trimestre
+      orden: 4
+      contenido: |
+        - Todas las facturas emitidas del trimestre.
+        - Todas las facturas recibidas y justificantes de gastos de la actividad.
+        - Si tiene trabajadores o paga a profesionales con retención: las nóminas y facturas correspondientes.
+        - Si alquila un local: los recibos del alquiler.
+        - Cualquier operación especial (compra de vehículo, ventas a otros países de la UE, etc.).
+
+    - categoria: normas
+      titulo: Cómo enviarnos la documentación
+      orden: 5
+      contenido: |
+        Puede enviarla como adjunto respondiendo a este correo o escribiendo a {email_contacto}.
+        Preferiblemente en PDF o foto legible. Indique en el asunto su nombre y el trimestre.
+
+    - categoria: horarios
+      titulo: Horario y contacto
+      orden: 6
+      contenido: |
+        Horario de atención: de lunes a viernes, de 9:00 a 14:00 y de 16:00 a 19:00.
+        Correo: {email_contacto}. Teléfono: {telefono}.
+
+    - categoria: faq
+      titulo: "¿Me podéis enviar el justificante de mi declaración?"
+      orden: 7
+      contenido: |
+        Si la declaración ya está presentada, la gestoría puede enviar el justificante.
+        El agente confirma el estado y deja constancia de la petición para que el equipo lo adjunte.
+
+    - categoria: faq
+      titulo: "¿Cuánto tengo que pagar este trimestre?"
+      orden: 8
+      contenido: |
+        Solo se informa del importe si la declaración ya está calculada o presentada en el programa
+        de la gestoría. Si aún no está calculada, se indica que se informará cuando lo esté.
+        Nunca se hacen estimaciones.
+
+  temas_sensibles:
+    - tema: Requerimientos, inspecciones o sanciones
+      descripcion: Cartas o notificaciones de Hacienda o de la Seguridad Social, multas, recargos, comprobaciones.
+    - tema: Embargos, deudas y aplazamientos
+      descripcion: Embargos de cuentas, deudas con Hacienda o Seguridad Social, solicitudes de aplazamiento.
+    - tema: Quejas, honorarios y facturación de la gestoría
+      descripcion: Reclamaciones sobre el servicio, precios o facturas de la propia gestoría.
+    - tema: Cambios importantes en la actividad
+      descripcion: Pasar a sociedad, dar de baja la actividad, cambiar de régimen fiscal, contratar trabajadores.
+    - tema: Herencias, donaciones e inmuebles
+      descripcion: Herencias, donaciones, compraventa de viviendas o locales.
+
+  tareas:
+    - tipo: recordatorio_cierre_trimestral
+      nombre: Reclamar documentación una semana antes del cierre trimestral
+      activa: true
+      config:
+        dias_antes: 7
+        modelos: ["303", "130"]
+        solo_clientes_con_pendientes: true
+
+  programas: []

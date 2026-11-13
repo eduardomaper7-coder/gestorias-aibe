@@ -1,0 +1,48 @@
+# Entorno local completo: base de datos, Redis y la API.
+#   docker compose up --build        arrancar (API en http://localhost:8000/docs)
+#   docker compose run --rm api pytest   pasar las pruebas automáticas
+#   docker compose down              parar (los datos se conservan)
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: aibe
+      POSTGRES_USER: aibe_owner
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en .env}
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:?Falta POSTGRES_APP_PASSWORD en .env}
+    volumes:
+      - datos_db:/var/lib/postgresql/data
+      - ./deploy/postgres-init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"   # solo accesible desde tu propio ordenador
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aibe_owner -d aibe"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - datos_redis:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://aibe_owner:${POSTGRES_PASSWORD}@db:5432/aibe
+      DATABASE_URL_APP: postgresql+psycopg://aibe_app:${POSTGRES_APP_PASSWORD}@db:5432/aibe
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  datos_db:
+  datos_redis:

@@ -1,0 +1,35 @@
+# Precios de los modelos de IA, en dólares por millón de tokens.
+# Fuente: https://platform.claude.com/docs/en/about-claude/pricing (consultado el 13-11-2026).
+# Si Anthropic cambia precios, se actualiza este fichero; no hay que tocar código.
+#
+# entrada            = tokens enviados al modelo (sin caché)
+# salida             = tokens que escribe el modelo
+# cache_escritura    = primera vez que se guarda en caché una parte repetida (caché de 5 minutos)
+# cache_lectura      = siguientes veces (mucho más barato)
+# umbral_largo       = a partir de cuántos tokens de entrada se aplica el precio "largo"
+
+modelos:
+  claude-haiku-5-5:
+    entrada: 0.10
+    salida: 0.50
+    cache_escritura: 0.125
+    cache_lectura: 0.01
+    umbral_largo: 100000
+    largo:
+      entrada: 0.50
+      salida: 2.50
+      cache_escritura: 0.625
+      cache_lectura: 0.05
+
+  claude-sonnet-5-5:
+    entrada: 2.00
+    salida: 10.00
+    cache_escritura: 2.50
+    cache_lectura: 0.10
+
+# Si aparece un modelo que no está en la lista se usa este precio (prudente: el más caro de los dos)
+por_defecto:
+  entrada: 2.00
+  salida: 10.00
+  cache_escritura: 2.50
+  cache_lectura: 0.10

@@ -1,0 +1,7 @@
+# Los scripts que se ejecutan dentro de Docker (Linux) deben tener saltos de línea Unix,
+# aunque el repositorio se descargue en Windows.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf

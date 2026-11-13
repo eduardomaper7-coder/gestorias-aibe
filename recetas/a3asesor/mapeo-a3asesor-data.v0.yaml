@@ -1,0 +1,55 @@
+# Mapeo de datos de a3ASESOR — versión 0 (HIPOTÉTICA)
+#
+# La estructura interna de tablas de a3ASESOR no es pública. Los nombres de abajo son
+# provisionales y sirven para desarrollar y probar el conector (y la aplicación de
+# demostración que imitará a3ASESOR). Cuando tengamos acceso a una instalación real
+# o a la base de "a3asesor Data", se crea la versión 1 con los nombres reales.
+#
+# Reglas:
+#   - Solo lectura (el conector solo genera SELECT).
+#   - Los nombres de tabla/campo solo pueden tener letras, números, "_" y un "." de esquema.
+#   - "valores" traduce los códigos del programa a nuestro vocabulario.
+
+programa: a3asesor
+operacion: mapeo-datos
+version: 0
+estado: borrador
+fuente: a3asesor_data      # a3asesor_data | a3asesor_sql_directo
+dialecto: mssql
+
+entidades:
+  empresas:                 # en a3, cada cliente de la gestoría es una "empresa"
+    tabla: dbo.EMPRESAS
+    columnas:
+      codigo: CODIGO_EMPRESA
+      nif: NIF
+      nombre: RAZON_SOCIAL
+      tipo: TIPO_PERSONA
+      email: EMAIL
+    valores:
+      tipo:
+        F: autonomo          # persona física
+        J: sociedad          # persona jurídica
+
+  modelos:                  # modelos fiscales por empresa, ejercicio y periodo
+    tabla: dbo.MODELOS_FISCALES
+    columnas:
+      codigo_empresa: CODIGO_EMPRESA
+      modelo: MODELO
+      ejercicio: EJERCICIO
+      periodo: PERIODO
+      estado: ESTADO
+      importe: IMPORTE
+      resultado: TIPO_RESULTADO
+      fecha_presentacion: FECHA_PRESENTACION
+    valores:
+      estado:
+        P: pendiente
+        C: calculado
+        T: presentado        # "telemático"
+      resultado:
+        I: a_ingresar
+        D: a_devolver
+        C: a_compensar
+        N: negativo
+        S: sin_actividad
